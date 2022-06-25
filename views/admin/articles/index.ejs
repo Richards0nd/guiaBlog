@@ -1,0 +1,50 @@
+<%- include('../../components/head') %>
+
+<body>
+	<%- include('../../components/nav') %>
+	<div class="container">
+		<hr>
+		<h2>Artigos</h2>
+		<a class="btn btn-primary" href="articles/new">Criar novo Artigo</a>
+		<hr>
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Título</th>
+					<th>Slug</th>
+					<th>Categoria</th>
+					<th>Ações</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% articles.forEach(article => { %>
+				<tr>
+					<td><%= article.id %></td>
+					<td><%= article.title %></td>
+					<td><%= article.slug %></td>
+					<td><%= article.category.title %></td>
+					<td>
+						<a href="articles/edit/<%= article.id %>" class="btn btn-warning">Editar</a>
+						<form method="post" action="articles/delete" style="display: inline"
+							onsubmit="confirmDelete(event, this)">
+							<input type="hidden" name="id" value="<%= article.id %>">
+							<button class="btn btn-danger">Apagar</button>
+						</form>
+					</td>
+				</tr>
+				<% }) %>
+			</tbody>
+		</table>
+	</div>
+</body>
+
+<%- include('../../components/footer') %>
+
+<script>
+	function confirmDelete(event, form) {
+		event.preventDefault()
+		var decision = confirm('Deseja realmente deletar esse artigo?')
+		if (decision) form.submit()
+	}
+</script>

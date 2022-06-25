@@ -1,0 +1,22 @@
+<%- include('../../components/head') %>
+
+<body>
+	<%- include('../../components/nav') %>
+	<div class="container">
+		<hr>
+		<div class="card">
+			<div class="card-header">
+				<h2>Cadastro de Categoria</h2>
+			</div>
+			<div class="card-body">
+				<form method="post" action="/admin/categories/save">
+					<input class="form-control" name="title" placeholder="Defina o título da categoria">
+					<br>
+					<button class="btn btn-success">Cadastrar</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+
+<%- include('../../components/footer') %>

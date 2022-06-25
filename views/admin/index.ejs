@@ -1,0 +1,20 @@
+<%- include('../components/head') %>
+
+<body>
+	<%- include('../components/nav') %>
+	<div class="container">
+		<hr>
+		<h2>Pagina de ADM</h2>
+		<hr>
+	</div>
+</body>
+
+<%- include('../components/footer') %>
+
+<script>
+	function confirmDelete(event, form) {
+		event.preventDefault()
+		var decision = confirm('Deseja realmente deletar essa categoria?')
+		if (decision) form.submit()
+	}
+</script>

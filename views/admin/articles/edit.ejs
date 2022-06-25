@@ -1,0 +1,48 @@
+<%- include('../../components/head') %>
+
+<body>
+	<%- include('../../components/nav') %>
+	<div class="container">
+		<hr>
+		<div class="card">
+			<div class="card-header">
+				<h2>Editar Artigo</h2>
+			</div>
+			<div class="card-body">
+				<form method="post" action="/admin/articles/update">
+					<input class="form-control" name="title" value="<%= article.title %>">
+					<br>
+					<textarea class="form-control" name="body" placeholder="Escreva o artigo" id="article"></textarea>
+					<br>
+					<label>Selecionar Categoria</label>
+					<select class="form-control" name="category">
+						<% categories.forEach(category => { %>
+						<option value="<%= category.id %>" <% if (category.id == article.categoryId) { %> selected
+							<% } %> name><%= category.title %></option>
+						<% }) %>
+					</select>
+					<br>
+					<input type="hidden" name="id" value="<%= article.id %>">
+					<button class="btn btn-success">Cadastrar</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div id="content" hidden>
+		<%- article.body %>
+	</div>
+</body>
+
+<%- include('../../components/footer') %>
+
+<script src="/tinymce/tinymce.min.js"></script>
+<script>
+	tinymce.init({
+		language: 'pt_BR',
+		selector: '#article',
+		plugins: 'advlist autolink link image lists preview searchreplace wordcount fullscreen insertdatetime media save table emoticons code visualblocks autoresize',
+		init_instance_callback: () => {
+			tinymce.get('article').setContent($('#content').html())
+		},
+	})
+</script>

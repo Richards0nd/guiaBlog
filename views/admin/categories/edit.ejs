@@ -1,0 +1,24 @@
+<%- include('../../components/head') %>
+
+<body>
+	<%- include('../../components/nav') %>
+	<div class="container">
+		<hr>
+		<div class="card">
+			<div class="card-header">
+				<h2>Editar Categoria</h2>
+			</div>
+			<div class="card-body">
+				<form method="post" action="/admin/categories/update">
+					<input class="form-control" name="title" placeholder="Defina o título da categoria"
+						value="<%= category.title %>">
+					<input class="form-control" type="hidden" name="id" value="<%= category.id %>">
+					<br>
+					<button class="btn btn-success">Atualizar</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+
+<%- include('../../components/footer') %>
