@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize')
 
-const connection = new Sequelize('blog', 'root', 'root', {
+const connection = new Sequelize('blog', 'local', 'local', {
 	host: 'localhost',
 	port: 3309,
 	dialect: 'mariadb',

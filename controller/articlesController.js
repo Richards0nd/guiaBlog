@@ -6,16 +6,20 @@ const slugify = require('slugify')
 
 router.get('/admin/articles', (req, res) => {
 	Article.findAll({
-		include: [{
-			model: Category
-		}]
-	}).then(articles => res.render('admin/articles/index', {
-		articles
-	}))
+		include: [
+			{
+				model: Category
+			}
+		]
+	}).then((articles) =>
+		res.render('admin/articles/index', {
+			articles
+		})
+	)
 })
 
 router.get('/admin/articles/new', (req, res) => {
-	Category.findAll().then(categories => {
+	Category.findAll().then((categories) => {
 		res.render('admin/articles/new', {
 			categories
 		})
@@ -26,7 +30,8 @@ router.post('/admin/articles/save', (req, res) => {
 	var title = req.body.title
 	var body = req.body.body
 	var categoryId = req.body.category
-	if (title == undefined || title == '') return res.redirect('/admin/articles/new')
+	if (title == undefined || title == '')
+		return res.redirect('/admin/articles/new')
 
 	Article.create({
 		title,
@@ -52,15 +57,17 @@ router.post('/admin/articles/delete', (req, res) => {
 router.get('/admin/articles/edit/:id', (req, res) => {
 	let id = req.params.id
 	if (isNaN(id)) return res.redirect('/admin/articles')
-	Article.findByPk(id).then(article => {
-		if (article == undefined) return res.redirect('/admin/articles')
-		Category.findAll().then(categories => {
-			res.render('admin/articles/edit', {
-				article,
-				categories
+	Article.findByPk(id)
+		.then((article) => {
+			if (article == undefined) return res.redirect('/admin/articles')
+			Category.findAll().then((categories) => {
+				res.render('admin/articles/edit', {
+					article,
+					categories
+				})
 			})
 		})
-	}).catch(() => res.redirect('/admin/articles'))
+		.catch(() => res.redirect('/admin/articles'))
 })
 
 router.post('/admin/articles/update', (req, res) => {
@@ -71,20 +78,22 @@ router.post('/admin/articles/update', (req, res) => {
 	if (id == undefined || isNaN(id)) return res.redirect('/admin/articles')
 	if (title == undefined || title == '') return res.redirect('/admin/articles')
 	if (body == undefined || body == '') return res.redirect('/admin/articles')
-	Article.update({
-		title,
-		slug: slugify(title, {
-			lower: true
-		}),
-		body,
-		categoryId
-	}, {
-		where: {
-			id
+	Article.update(
+		{
+			title,
+			slug: slugify(title, {
+				lower: true
+			}),
+			body,
+			categoryId
+		},
+		{
+			where: {
+				id
+			}
 		}
-	}).then(() => res.redirect('/admin/articles'))
+	).then(() => res.redirect('/admin/articles'))
 })
-
 
 router.get('/articles/page/:num', (req, res) => {
 	let page = parseInt(req.params.num)
@@ -97,10 +106,8 @@ router.get('/articles/page/:num', (req, res) => {
 	Article.findAndCountAll({
 		limit: 4,
 		offset: offset,
-		order: [
-			['id', 'DESC']
-		],
-	}).then(articles => {
+		order: [['id', 'DESC']]
+	}).then((articles) => {
 		let next = true
 		if (offset + 4 >= articles.count) next = false
 		let result = {
@@ -108,7 +115,7 @@ router.get('/articles/page/:num', (req, res) => {
 			next,
 			articles
 		}
-		Category.findAll().then(categories => {
+		Category.findAll().then((categories) => {
 			res.render('admin/articles/page', {
 				result,
 				categories
@@ -116,6 +123,5 @@ router.get('/articles/page/:num', (req, res) => {
 		})
 	})
 })
-
 
 module.exports = router

@@ -1,16 +1,16 @@
 const Sequelize = require('sequelize')
 const connection = require('../database/database')
 
-const Category = connection.define('category', {
-	title: {
+const User = connection.define('users', {
+	email: {
 		type: Sequelize.STRING,
 		allowNull: false
 	},
-	slug: {
+	password: {
 		type: Sequelize.STRING,
 		allowNull: false
 	}
 })
 
-Category.sync()
-module.exports = Category
+User.sync()
+module.exports = User
