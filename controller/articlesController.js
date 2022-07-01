@@ -6,11 +6,7 @@ const slugify = require('slugify')
 
 router.get('/admin/articles', (req, res) => {
 	Article.findAll({
-		include: [
-			{
-				model: Category
-			}
-		]
+		include: [{ model: Category }]
 	}).then((articles) =>
 		res.render('admin/articles/index', {
 			articles
@@ -61,10 +57,7 @@ router.get('/admin/articles/edit/:id', (req, res) => {
 		.then((article) => {
 			if (article == undefined) return res.redirect('/admin/articles')
 			Category.findAll().then((categories) => {
-				res.render('admin/articles/edit', {
-					article,
-					categories
-				})
+				res.render('admin/articles/edit', { article, categories })
 			})
 		})
 		.catch(() => res.redirect('/admin/articles'))
@@ -81,16 +74,12 @@ router.post('/admin/articles/update', (req, res) => {
 	Article.update(
 		{
 			title,
-			slug: slugify(title, {
-				lower: true
-			}),
+			slug: slugify(title, { lower: true }),
 			body,
 			categoryId
 		},
 		{
-			where: {
-				id
-			}
+			where: { id }
 		}
 	).then(() => res.redirect('/admin/articles'))
 })
@@ -110,16 +99,9 @@ router.get('/articles/page/:num', (req, res) => {
 	}).then((articles) => {
 		let next = true
 		if (offset + 4 >= articles.count) next = false
-		let result = {
-			page,
-			next,
-			articles
-		}
+		let result = { page, next, articles }
 		Category.findAll().then((categories) => {
-			res.render('admin/articles/page', {
-				result,
-				categories
-			})
+			res.render('admin/articles/page', { result, categories })
 		})
 	})
 })
