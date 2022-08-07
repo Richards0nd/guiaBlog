@@ -1,6 +1,5 @@
 const express = require('express')
 const app = express()
-const bodyParser = require('body-parser')
 const session = require('express-session')
 const connection = require('./database/database')
 
@@ -11,9 +10,7 @@ const usersController = require('./controller/usersController')
 // Database connection
 connection
 	.authenticate()
-	.then(() =>
-		console.log('Conexão com o bando de dados realizada com sucesso')
-	)
+	.then(() => console.log('Conexão com o bando de dados realizada com sucesso'))
 	.catch((err) => {
 		console.log(err)
 	})
@@ -34,13 +31,8 @@ app.use(
 	})
 )
 
-// Use BodyParser in express
-app.use(
-	bodyParser.urlencoded({
-		extended: false
-	})
-)
-app.use(bodyParser.json())
+app.use(express.urlencoded({ extended: false }))
+app.use(express.json())
 
 app.use('/', categoriesController)
 app.use('/', articlesController)
